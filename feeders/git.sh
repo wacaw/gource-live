@@ -24,10 +24,22 @@ do
         AUTHOR=$(git --git-dir "$PROJECTDIR" log --format=%an $SHA --max-count=1)
         TIMESTAMP=$(git --git-dir "$PROJECTDIR" log --format=%at $SHA --max-count=1)
         PREFIX="$TIMESTAMP|$AUTHOR|"
+        MESSAGE=$(git --git-dir "$PROJECTDIR" log --format=%s $SHA --max-count=1)
+
+        CHANGES=0
+
         git --git-dir "$PROJECTDIR" diff-tree -r --no-commit-id --name-status $SHA | tr '\t' '|' | while read SUFFIX
         do
+            CHANGES=$((CHANGES + 1))
+            if [ "$CHANGES" == 1 ]; then
+                say -v "Good News" "commit commit commit "
+                say $AUTHOR $MESSAGE
+                #echo $AUTHOR $MESSAGE
+            fi
             echo $PREFIX$SUFFIX
         done
+
+
     done
     test $INTERVAL = 0 && break
     git --git-dir "$PROJECTDIR" fetch $REMOTE $BRANCH >/dev/null 2>&1

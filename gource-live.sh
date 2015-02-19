@@ -63,7 +63,7 @@ while [ $# != 0 ]; do
     shift
 done
 
-eval "set -- $args"  # save arguments in $@. Use "$@" in for loops, not $@ 
+eval "set -- $args"  # save arguments in $@. Use "$@" in for loops, not $@
 
 #test $# -gt 0 || usage
 
